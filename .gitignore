@@ -1,0 +1,8 @@
+*~
+node_modules
+redditgifs-bundle.js
+redditgifs-bundle.js.map
+
+# here lie the gifs
+saved
+redditgifs
