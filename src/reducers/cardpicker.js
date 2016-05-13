@@ -1,7 +1,11 @@
+function buildInitialSlotState() {
+  return { filter: '', filteredCards: [] };
+}
+
 const initialState = {
-  first: { filter: '' },
-  second: { filter: '' },
-  third: { filter: '' }
+  first: buildInitialSlotState(),
+  second: buildInitialSlotState(),
+  third: buildInitialSlotState()
 };
 
 function validateSlot(action) {
@@ -18,16 +22,27 @@ export default function cardpicker(state = initialState, action) {
     return initialState;
   }
 
+  var slot;
+
   switch(action.type) {
     case 'FULL_RESET':
       return initialState;
     case 'SET_SLOT_FILTER':
-      const slot = validateSlot(action);
+      slot = validateSlot(action);
       return {
         ...state,
         [slot]: {
           ...state[slot],
           filter: action.filter
+        }
+      };
+    case 'SET_SLOT_CARDS':
+      slot = validateSlot(action);
+      return {
+        ...state,
+        [slot]: {
+          ...state[slot],
+          filteredCards: action.filteredCards
         }
       };
     default:

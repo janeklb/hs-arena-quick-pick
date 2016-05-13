@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { setSlotFilter } from './actions/cardpicker';
+import { updateCardPickerSelection } from './actions/cardpicker';
 
 class CardPicker extends Component {
 
@@ -20,7 +20,7 @@ class CardPicker extends Component {
           <input className="form-control" type="text"
               value={filter}
               placeholder={"Enter " + slot + " card ..."}
-              onChange={(e) => dispatch(setSlotFilter(e.target.value, slot))} />
+              onChange={(e) => dispatch(updateCardPickerSelection(e.target.value, slot))} />
         </div>
         <ul>
           { filteredCards.map(card => (
@@ -51,24 +51,7 @@ function mapStateToProps(state, props) {
     throw new Error('Invalid slot for CardPicker: ' + slot);
   }
 
-  var filter = cardpicker[slot].filter,
-      filteredCards = [];
-
-  if (filter && filter.length > 2) {
-
-    const filterParts = filter.toLowerCase()
-      .split(' ')
-      .filter(part => !!part.trim());
-
-    filteredCards = tierlist.heroCards.filter((card) => {
-      for (var part of filterParts) {
-        if (card._lcName.indexOf(part) === -1) {
-          return false;
-        }
-      }
-      return true;
-    });
-  }
+  const { filter, filteredCards } = cardpicker[slot];
 
   return {
     filter,

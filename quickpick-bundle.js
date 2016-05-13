@@ -23476,7 +23476,7 @@
 	            value: filter,
 	            placeholder: "Enter " + slot + " card ...",
 	            onChange: function onChange(e) {
-	              return dispatch((0, _cardpicker.setSlotFilter)(e.target.value, slot));
+	              return dispatch((0, _cardpicker.updateCardPickerSelection)(e.target.value, slot));
 	            } })
 	        ),
 	        _react2.default.createElement(
@@ -23529,48 +23529,10 @@
 	    throw new Error('Invalid slot for CardPicker: ' + slot);
 	  }
 	
-	  var filter = cardpicker[slot].filter,
-	      filteredCards = [];
+	  var _cardpicker$slot = cardpicker[slot];
+	  var filter = _cardpicker$slot.filter;
+	  var filteredCards = _cardpicker$slot.filteredCards;
 	
-	  if (filter && filter.length > 2) {
-	    (function () {
-	
-	      var filterParts = filter.toLowerCase().split(' ').filter(function (part) {
-	        return !!part.trim();
-	      });
-	
-	      filteredCards = tierlist.heroCards.filter(function (card) {
-	        var _iteratorNormalCompletion = true;
-	        var _didIteratorError = false;
-	        var _iteratorError = undefined;
-	
-	        try {
-	          for (var _iterator = filterParts[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-	            var part = _step.value;
-	
-	            if (card._lcName.indexOf(part) === -1) {
-	              return false;
-	            }
-	          }
-	        } catch (err) {
-	          _didIteratorError = true;
-	          _iteratorError = err;
-	        } finally {
-	          try {
-	            if (!_iteratorNormalCompletion && _iterator.return) {
-	              _iterator.return();
-	            }
-	          } finally {
-	            if (_didIteratorError) {
-	              throw _iteratorError;
-	            }
-	          }
-	        }
-	
-	        return true;
-	      });
-	    })();
-	  }
 	
 	  return {
 	    filter: filter,
@@ -23607,11 +23569,80 @@
 	  value: true
 	});
 	exports.setSlotFilter = setSlotFilter;
+	exports.getFilteredCards = getFilteredCards;
+	exports.updateCardPickerSelection = updateCardPickerSelection;
 	function setSlotFilter(filter, slot) {
 	  return {
 	    type: 'SET_SLOT_FILTER',
 	    slot: slot,
 	    filter: filter
+	  };
+	}
+	
+	function setSlotCards(filteredCards, slot) {
+	  return {
+	    type: 'SET_SLOT_CARDS',
+	    slot: slot,
+	    filteredCards: filteredCards
+	  };
+	}
+	
+	function getFilteredCards(filter, getState) {
+	
+	  if (!filter || filter.length <= 2) {
+	    return [];
+	  }
+	
+	  var _getState = getState();
+	
+	  var tierlist = _getState.tierlist;
+	
+	
+	  var filterParts = filter.toLowerCase().split(' ').filter(function (part) {
+	    return !!part.trim();
+	  });
+	
+	  var filteredCards = tierlist.heroCards.filter(function (card) {
+	    var _iteratorNormalCompletion = true;
+	    var _didIteratorError = false;
+	    var _iteratorError = undefined;
+	
+	    try {
+	      for (var _iterator = filterParts[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+	        var part = _step.value;
+	
+	        if (card._lcName.indexOf(part) === -1) {
+	          return false;
+	        }
+	      }
+	    } catch (err) {
+	      _didIteratorError = true;
+	      _iteratorError = err;
+	    } finally {
+	      try {
+	        if (!_iteratorNormalCompletion && _iterator.return) {
+	          _iterator.return();
+	        }
+	      } finally {
+	        if (_didIteratorError) {
+	          throw _iteratorError;
+	        }
+	      }
+	    }
+	
+	    return true;
+	  });
+	
+	  return filteredCards;
+	}
+	
+	function updateCardPickerSelection(filter, slot) {
+	  return function (dispatch, getState) {
+	
+	    dispatch(setSlotFilter(filter, slot));
+	
+	    var filteredCards = getFilteredCards(filter, getState);
+	    dispatch(setSlotCards(filteredCards, slot));
 	  };
 	}
 	;
@@ -23622,6 +23653,12 @@
 	  }
 	
 	  __REACT_HOT_LOADER__.register(setSlotFilter, 'setSlotFilter', '/home/janek/git/hs-arena-quick-pick/src/actions/cardpicker.js');
+	
+	  __REACT_HOT_LOADER__.register(setSlotCards, 'setSlotCards', '/home/janek/git/hs-arena-quick-pick/src/actions/cardpicker.js');
+	
+	  __REACT_HOT_LOADER__.register(getFilteredCards, 'getFilteredCards', '/home/janek/git/hs-arena-quick-pick/src/actions/cardpicker.js');
+	
+	  __REACT_HOT_LOADER__.register(updateCardPickerSelection, 'updateCardPickerSelection', '/home/janek/git/hs-arena-quick-pick/src/actions/cardpicker.js');
 	})();
 
 	;
@@ -24557,10 +24594,14 @@
 	
 	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 	
+	function buildInitialSlotState() {
+	  return { filter: '', filteredCards: [] };
+	}
+	
 	var initialState = {
-	  first: { filter: '' },
-	  second: { filter: '' },
-	  third: { filter: '' }
+	  first: buildInitialSlotState(),
+	  second: buildInitialSlotState(),
+	  third: buildInitialSlotState()
 	};
 	
 	function validateSlot(action) {
@@ -24580,13 +24621,20 @@
 	    return initialState;
 	  }
 	
+	  var slot;
+	
 	  switch (action.type) {
 	    case 'FULL_RESET':
 	      return initialState;
 	    case 'SET_SLOT_FILTER':
-	      var slot = validateSlot(action);
+	      slot = validateSlot(action);
 	      return _extends({}, state, _defineProperty({}, slot, _extends({}, state[slot], {
 	        filter: action.filter
+	      })));
+	    case 'SET_SLOT_CARDS':
+	      slot = validateSlot(action);
+	      return _extends({}, state, _defineProperty({}, slot, _extends({}, state[slot], {
+	        filteredCards: action.filteredCards
 	      })));
 	    default:
 	      return state;
@@ -24598,6 +24646,8 @@
 	  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
 	    return;
 	  }
+	
+	  __REACT_HOT_LOADER__.register(buildInitialSlotState, 'buildInitialSlotState', '/home/janek/git/hs-arena-quick-pick/src/reducers/cardpicker.js');
 	
 	  __REACT_HOT_LOADER__.register(validateSlot, 'validateSlot', '/home/janek/git/hs-arena-quick-pick/src/reducers/cardpicker.js');
 	
