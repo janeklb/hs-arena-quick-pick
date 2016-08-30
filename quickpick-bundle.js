@@ -23446,8 +23446,22 @@
 	  }
 	
 	  _createClass(CardPicker, [{
+	    key: 'cardImage',
+	    value: function cardImage(card) {
+	      return 'http://wow.zamimg.com/images/hearthstone/cards/enus/original/' + card.CardId + '.png';
+	    }
+	  }, {
+	    key: 'cardStyle',
+	    value: function cardStyle(card) {
+	      return {
+	        backgroundImage: 'url(' + this.cardImage(card) + ')'
+	      };
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
+	      var _this2 = this;
+	
 	      var _props = this.props;
 	      var dispatch = _props.dispatch;
 	      var slot = _props.slot;
@@ -23458,7 +23472,7 @@
 	      var hasFilter = filter && filter.length > 2;
 	      var noMatched = hasFilter && filteredCards.length == 0 ? _react2.default.createElement(
 	        'li',
-	        null,
+	        { className: 'text-center' },
 	        _react2.default.createElement(
 	          'em',
 	          null,
@@ -23481,19 +23495,20 @@
 	        ),
 	        _react2.default.createElement(
 	          'ul',
-	          null,
+	          { className: 'list-unstyled' },
 	          filteredCards.map(function (card) {
 	            return _react2.default.createElement(
 	              'li',
-	              { key: card.CardId, className: 'card-picker-card' },
+	              { key: card.CardId, className: 'card-picker-card', tabIndex: '1' },
+	              _react2.default.createElement('img', { src: _this2.cardImage(card), alt: card.Name }),
 	              _react2.default.createElement(
 	                'span',
-	                { className: 'pull-right' },
-	                card._heroScore.StopAfterSecond ? _react2.default.createElement(
-	                  'span',
-	                  { className: 'text-danger' },
-	                  'X'
-	                ) : '',
+	                { className: 'label label-default pull-right' },
+	                _react2.default.createElement(
+	                  'strong',
+	                  null,
+	                  card._heroScore.Score
+	                ),
 	                ' ',
 	                card._heroScore.StopAfterFirst ? _react2.default.createElement(
 	                  'span',
@@ -23501,11 +23516,11 @@
 	                  'X'
 	                ) : '',
 	                ' ',
-	                _react2.default.createElement(
-	                  'strong',
-	                  null,
-	                  card._heroScore.Score
-	                )
+	                card._heroScore.StopAfterSecond ? _react2.default.createElement(
+	                  'span',
+	                  { className: 'text-danger' },
+	                  'X'
+	                ) : ''
 	              ),
 	              card.Name
 	            );
