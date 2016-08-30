@@ -17,12 +17,14 @@ class CardPicker extends Component {
 
   render() {
 
-    const { dispatch, slot, filter, filteredCards } = this.props;
+    const { dispatch, slot, filter, filteredCards, topcards } = this.props;
 
     const hasFilter = filter && filter.length > 2;
     const noMatched = hasFilter && filteredCards.length == 0 ?
       ( <li className="text-center"><em>No Matches</em></li>) :
       null;
+
+    const isTopCard = card => topcards.indexOf(card) !== -1;
 
     return (
       <div className="card-picker">
@@ -36,7 +38,8 @@ class CardPicker extends Component {
           { filteredCards.map(card => (
             <li key={card.CardId} className="card-picker-card" tabIndex="1">
               <img src={this.cardImage(card)} alt={card.Name} />
-              <span className="label label-default pull-right">
+              <span className={
+                  'label label-default pull-right' + (isTopCard(card) ? ' label-success' : '') }>
                 <strong>{card._heroScore.Score}</strong>
                 { ' ' }
                 { card._heroScore.StopAfterFirst ? <span className="text-warning">X</span> : '' }
@@ -66,7 +69,8 @@ function mapStateToProps(state, props) {
 
   return {
     filter,
-    filteredCards
+    filteredCards,
+    topcards: cardpicker.topcards
   };
 }
 

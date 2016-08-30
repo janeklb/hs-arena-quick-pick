@@ -5,7 +5,8 @@ function buildInitialSlotState() {
 const initialState = {
   first: buildInitialSlotState(),
   second: buildInitialSlotState(),
-  third: buildInitialSlotState()
+  third: buildInitialSlotState(),
+  topcards: []
 };
 
 function validateSlot(action) {
@@ -14,6 +15,20 @@ function validateSlot(action) {
     throw new Error('Invalid slot: ' + slot);
   }
   return slot;
+}
+
+function topcards(cards) {
+  var topval = 0;
+  var topcards = [];
+  cards.forEach(card => {
+    if (card._heroScore.Score == topval) {
+      topcards.push(card);
+    } else if (card._heroScore.Score > topval) {
+      topcards = [ card ];
+      topval = card._heroScore.Score;
+    }
+  });
+  return topcards;
 }
 
 export default function cardpicker(state = initialState, action) {
@@ -38,13 +53,21 @@ export default function cardpicker(state = initialState, action) {
       };
     case 'SET_SLOT_CARDS':
       slot = validateSlot(action);
-      return {
+      state = {
         ...state,
         [slot]: {
           ...state[slot],
           filteredCards: action.filteredCards
         }
       };
+
+      let allCards = [].concat(
+        state.first.filteredCards,
+        state.second.filteredCards,
+        state.third.filteredCards);
+      state.topcards = topcards(allCards);
+
+      return state;
     default:
       return state;
   }
