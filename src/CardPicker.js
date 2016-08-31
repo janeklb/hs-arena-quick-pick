@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { updateCardPickerSelection } from './actions/cardpicker';
+import { updateCardPickerSelection, setSlotFilter } from './actions/cardpicker';
 
 class CardPicker extends Component {
 
@@ -17,7 +17,7 @@ class CardPicker extends Component {
 
   render() {
 
-    const { dispatch, slot, filter, filteredCards, topcards } = this.props;
+    const { onFilterChange, slot, filter, filteredCards, topcards } = this.props;
 
     const hasFilter = filter && filter.length > 2;
     const noMatched = hasFilter && filteredCards.length == 0 ?
@@ -32,7 +32,7 @@ class CardPicker extends Component {
           <input className="form-control" type="text"
               value={filter}
               placeholder={"Enter " + slot + " card ..."}
-              onChange={(e) => dispatch(updateCardPickerSelection(e.target.value, slot))} />
+              onChange={(e) => onFilterChange(e.target.value, slot)} />
         </div>
         <ul className="list-unstyled">
           { filteredCards.map(card => (
@@ -74,4 +74,13 @@ function mapStateToProps(state, props) {
   };
 }
 
-export default connect(mapStateToProps)(CardPicker);
+function mapDispatchToProps(dispatch) {
+  return {
+    onFilterChange: (filter, slot) => {
+      dispatch(setSlotFilter(filter, slot));
+      dispatch(updateCardPickerSelection(slot));
+    }
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CardPicker);

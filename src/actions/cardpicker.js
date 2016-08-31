@@ -14,8 +14,9 @@ function setSlotCards(filteredCards, slot) {
   }
 }
 
-export function getFilteredCards(filter, getState) {
+export function getFilteredCards(slot, getState) {
 
+  const { filter } = getState().cardpicker[slot];
   if (!filter || filter.length <= 2) {
     return [];
   }
@@ -38,13 +39,16 @@ export function getFilteredCards(filter, getState) {
   return filteredCards;
 }
 
-export function updateCardPickerSelection(filter, slot) {
-  return (dispatch, getState) => {
-
-    dispatch(setSlotFilter(filter, slot));
-
-    var filteredCards = getFilteredCards(filter, getState);
+export function updateCardPickerSelection(slot) {
+  const thunk = (dispatch, getState) => {
+    var filteredCards = getFilteredCards(slot, getState);
     dispatch(setSlotCards(filteredCards, slot));
-
   };
+  thunk.meta = {
+    debounce: {
+      time: 200,
+      key: 'updateCardPickerSelection'
+    }
+  };
+  return thunk;
 }
