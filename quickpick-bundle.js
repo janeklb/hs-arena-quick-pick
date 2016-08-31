@@ -23436,8 +23436,8 @@
 	  return _react2.default.createElement(
 	    'div',
 	    { className: 'card-picker' },
-	    _react2.default.createElement(_CardPickerFilter2.default, { slot: props.slot }),
-	    _react2.default.createElement(_CardPickerList2.default, { slot: props.slot })
+	    _react2.default.createElement(_CardPickerFilter2.default, props),
+	    _react2.default.createElement(_CardPickerList2.default, props)
 	  );
 	};
 	

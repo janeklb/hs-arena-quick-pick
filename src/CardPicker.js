@@ -5,8 +5,8 @@ import CardPickerList from './CardPickerList';
 export default (props) => {
   return (
     <div className="card-picker">
-      <CardPickerFilter slot={props.slot} />
-      <CardPickerList slot={props.slot} />
+      <CardPickerFilter {...props} />
+      <CardPickerList {...props} />
     </div>
   );
 }
