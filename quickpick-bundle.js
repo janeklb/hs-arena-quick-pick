@@ -69,7 +69,7 @@
 	
 	var _HSArenaQuickPick2 = _interopRequireDefault(_HSArenaQuickPick);
 	
-	var _store = __webpack_require__(214);
+	var _store = __webpack_require__(216);
 	
 	var _store2 = _interopRequireDefault(_store);
 	
@@ -23289,7 +23289,7 @@
 	
 	var _CardPicker2 = _interopRequireDefault(_CardPicker);
 	
-	var _HeroPicker = __webpack_require__(212);
+	var _HeroPicker = __webpack_require__(214);
 	
 	var _HeroPicker2 = _interopRequireDefault(_HeroPicker);
 	
@@ -23418,6 +23418,52 @@
 	  value: true
 	});
 	
+	var _react = __webpack_require__(2);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _CardPickerFilter = __webpack_require__(211);
+	
+	var _CardPickerFilter2 = _interopRequireDefault(_CardPickerFilter);
+	
+	var _CardPickerList = __webpack_require__(213);
+	
+	var _CardPickerList2 = _interopRequireDefault(_CardPickerList);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var _default = function _default(props) {
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'card-picker' },
+	    _react2.default.createElement(_CardPickerFilter2.default, { slot: props.slot }),
+	    _react2.default.createElement(_CardPickerList2.default, { slot: props.slot })
+	  );
+	};
+	
+	exports.default = _default;
+	;
+
+	(function () {
+	  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+	    return;
+	  }
+
+	  __REACT_HOT_LOADER__.register(_default, 'default', '/home/janek/git/hs-arena-quick-pick/src/CardPicker.js');
+	})();
+
+	;
+
+/***/ },
+/* 211 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
 	var _react = __webpack_require__(2);
@@ -23426,7 +23472,7 @@
 	
 	var _reactRedux = __webpack_require__(181);
 	
-	var _cardpicker = __webpack_require__(211);
+	var _cardpicker = __webpack_require__(212);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -23436,107 +23482,42 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var CardPicker = function (_Component) {
-	  _inherits(CardPicker, _Component);
+	var CardPickerFilter = function (_Component) {
+	  _inherits(CardPickerFilter, _Component);
 	
-	  function CardPicker() {
-	    _classCallCheck(this, CardPicker);
+	  function CardPickerFilter() {
+	    _classCallCheck(this, CardPickerFilter);
 	
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(CardPicker).apply(this, arguments));
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(CardPickerFilter).apply(this, arguments));
 	  }
 	
-	  _createClass(CardPicker, [{
-	    key: 'cardImage',
-	    value: function cardImage(card) {
-	      return 'http://wow.zamimg.com/images/hearthstone/cards/enus/original/' + card.CardId + '.png';
-	    }
-	  }, {
-	    key: 'cardStyle',
-	    value: function cardStyle(card) {
-	      return {
-	        backgroundImage: 'url(' + this.cardImage(card) + ')'
-	      };
-	    }
-	  }, {
+	  _createClass(CardPickerFilter, [{
 	    key: 'render',
 	    value: function render() {
-	      var _this2 = this;
-	
 	      var _props = this.props;
-	      var dispatch = _props.dispatch;
+	      var onFilterChange = _props.onFilterChange;
 	      var slot = _props.slot;
 	      var filter = _props.filter;
-	      var filteredCards = _props.filteredCards;
 	
-	
-	      var hasFilter = filter && filter.length > 2;
-	      var noMatched = hasFilter && filteredCards.length == 0 ? _react2.default.createElement(
-	        'li',
-	        { className: 'text-center' },
-	        _react2.default.createElement(
-	          'em',
-	          null,
-	          'No Matches'
-	        )
-	      ) : null;
 	
 	      return _react2.default.createElement(
 	        'div',
-	        { className: 'card-picker' },
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'form-group' },
-	          _react2.default.createElement('input', { className: 'form-control', type: 'text',
-	            value: filter,
-	            placeholder: "Enter " + slot + " card ...",
-	            onChange: function onChange(e) {
-	              return dispatch((0, _cardpicker.updateCardPickerSelection)(e.target.value, slot));
-	            } })
-	        ),
-	        _react2.default.createElement(
-	          'ul',
-	          { className: 'list-unstyled' },
-	          filteredCards.map(function (card) {
-	            return _react2.default.createElement(
-	              'li',
-	              { key: card.CardId, className: 'card-picker-card', tabIndex: '1' },
-	              _react2.default.createElement('img', { src: _this2.cardImage(card), alt: card.Name }),
-	              _react2.default.createElement(
-	                'span',
-	                { className: 'label label-default pull-right' },
-	                _react2.default.createElement(
-	                  'strong',
-	                  null,
-	                  card._heroScore.Score
-	                ),
-	                ' ',
-	                card._heroScore.StopAfterFirst ? _react2.default.createElement(
-	                  'span',
-	                  { className: 'text-warning' },
-	                  'X'
-	                ) : '',
-	                ' ',
-	                card._heroScore.StopAfterSecond ? _react2.default.createElement(
-	                  'span',
-	                  { className: 'text-danger' },
-	                  'X'
-	                ) : ''
-	              ),
-	              card.Name
-	            );
-	          }),
-	          noMatched
-	        )
+	        { className: 'form-group' },
+	        _react2.default.createElement('input', { className: 'form-control', type: 'text',
+	          value: filter,
+	          placeholder: "Enter " + slot + " card ...",
+	          onChange: function onChange(e) {
+	            return onFilterChange(e.target.value, slot);
+	          } })
 	      );
 	    }
 	  }]);
 	
-	  return CardPicker;
+	  return CardPickerFilter;
 	}(_react.Component);
 	
 	function mapStateToProps(state, props) {
 	  var cardpicker = state.cardpicker;
-	  var tierlist = state.tierlist;
 	  var slot = props.slot;
 	
 	
@@ -23544,18 +23525,24 @@
 	    throw new Error('Invalid slot for CardPicker: ' + slot);
 	  }
 	
-	  var _cardpicker$slot = cardpicker[slot];
-	  var filter = _cardpicker$slot.filter;
-	  var filteredCards = _cardpicker$slot.filteredCards;
+	  var filter = cardpicker[slot].filter;
 	
 	
 	  return {
-	    filter: filter,
-	    filteredCards: filteredCards
+	    filter: filter
 	  };
 	}
 	
-	var _default = (0, _reactRedux.connect)(mapStateToProps)(CardPicker);
+	function mapDispatchToProps(dispatch) {
+	  return {
+	    onFilterChange: function onFilterChange(filter, slot) {
+	      dispatch((0, _cardpicker.setSlotFilter)(filter, slot));
+	      dispatch((0, _cardpicker.updateCardPickerSelection)(slot));
+	    }
+	  };
+	}
+	
+	var _default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(CardPickerFilter);
 	
 	exports.default = _default;
 	;
@@ -23565,17 +23552,19 @@
 	    return;
 	  }
 	
-	  __REACT_HOT_LOADER__.register(mapStateToProps, 'mapStateToProps', '/home/janek/git/hs-arena-quick-pick/src/CardPicker.js');
+	  __REACT_HOT_LOADER__.register(mapStateToProps, 'mapStateToProps', '/home/janek/git/hs-arena-quick-pick/src/CardPickerFilter.js');
 	
-	  __REACT_HOT_LOADER__.register(CardPicker, 'CardPicker', '/home/janek/git/hs-arena-quick-pick/src/CardPicker.js');
+	  __REACT_HOT_LOADER__.register(mapDispatchToProps, 'mapDispatchToProps', '/home/janek/git/hs-arena-quick-pick/src/CardPickerFilter.js');
 	
-	  __REACT_HOT_LOADER__.register(_default, 'default', '/home/janek/git/hs-arena-quick-pick/src/CardPicker.js');
+	  __REACT_HOT_LOADER__.register(CardPickerFilter, 'CardPickerFilter', '/home/janek/git/hs-arena-quick-pick/src/CardPickerFilter.js');
+	
+	  __REACT_HOT_LOADER__.register(_default, 'default', '/home/janek/git/hs-arena-quick-pick/src/CardPickerFilter.js');
 	})();
 
 	;
 
 /***/ },
-/* 211 */
+/* 212 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -23602,7 +23591,8 @@
 	  };
 	}
 	
-	function getFilteredCards(filter, getState) {
+	function getFilteredCards(slot, getState) {
+	  var filter = getState().cardpicker[slot].filter;
 	
 	  if (!filter || filter.length <= 2) {
 	    return [];
@@ -23651,14 +23641,18 @@
 	  return filteredCards;
 	}
 	
-	function updateCardPickerSelection(filter, slot) {
-	  return function (dispatch, getState) {
-	
-	    dispatch(setSlotFilter(filter, slot));
-	
-	    var filteredCards = getFilteredCards(filter, getState);
+	function updateCardPickerSelection(slot) {
+	  var thunk = function thunk(dispatch, getState) {
+	    var filteredCards = getFilteredCards(slot, getState);
 	    dispatch(setSlotCards(filteredCards, slot));
 	  };
+	  thunk.meta = {
+	    debounce: {
+	      time: 200,
+	      key: 'updateCardPickerSelection'
+	    }
+	  };
+	  return thunk;
 	}
 	;
 	
@@ -23679,7 +23673,7 @@
 	;
 
 /***/ },
-/* 212 */
+/* 213 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -23696,7 +23690,160 @@
 	
 	var _reactRedux = __webpack_require__(181);
 	
-	var _heropicker = __webpack_require__(213);
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var CardPickerList = function (_Component) {
+	  _inherits(CardPickerList, _Component);
+	
+	  function CardPickerList() {
+	    _classCallCheck(this, CardPickerList);
+	
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(CardPickerList).apply(this, arguments));
+	  }
+	
+	  _createClass(CardPickerList, [{
+	    key: 'cardImage',
+	    value: function cardImage(card) {
+	      return 'http://wow.zamimg.com/images/hearthstone/cards/enus/original/' + card.CardId + '.png';
+	    }
+	  }, {
+	    key: 'cardStyle',
+	    value: function cardStyle(card) {
+	      return {
+	        backgroundImage: 'url(' + this.cardImage(card) + ')'
+	      };
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var _this2 = this;
+	
+	      var _props = this.props;
+	      var slot = _props.slot;
+	      var show = _props.show;
+	      var filteredCards = _props.filteredCards;
+	      var topcards = _props.topcards;
+	
+	
+	      var noMatched = show && filteredCards.length == 0 ? _react2.default.createElement(
+	        'li',
+	        { className: 'text-center' },
+	        _react2.default.createElement(
+	          'em',
+	          null,
+	          'No Matches'
+	        )
+	      ) : null;
+	
+	      var isTopCard = function isTopCard(card) {
+	        return topcards.indexOf(card) !== -1;
+	      };
+	
+	      return _react2.default.createElement(
+	        'ul',
+	        { className: 'list-unstyled' },
+	        filteredCards.map(function (card) {
+	          return _react2.default.createElement(
+	            'li',
+	            { key: card.CardId, className: 'card-picker-card', tabIndex: '1' },
+	            _react2.default.createElement('img', { src: _this2.cardImage(card), alt: card.Name }),
+	            _react2.default.createElement(
+	              'span',
+	              { className: 'label label-default pull-right' + (isTopCard(card) ? ' label-success' : '') },
+	              _react2.default.createElement(
+	                'strong',
+	                null,
+	                card._heroScore.Score
+	              ),
+	              ' ',
+	              card._heroScore.StopAfterFirst ? _react2.default.createElement(
+	                'span',
+	                { className: 'text-warning' },
+	                'X'
+	              ) : '',
+	              ' ',
+	              card._heroScore.StopAfterSecond ? _react2.default.createElement(
+	                'span',
+	                { className: 'text-danger' },
+	                'X'
+	              ) : ''
+	            ),
+	            card.Name
+	          );
+	        }),
+	        noMatched
+	      );
+	    }
+	  }]);
+	
+	  return CardPickerList;
+	}(_react.Component);
+	
+	function mapStateToProps(state, props) {
+	  var cardpicker = state.cardpicker;
+	  var slot = props.slot;
+	
+	
+	  if (typeof cardpicker[slot] === 'undefined') {
+	    throw new Error('Invalid slot for CardPicker: ' + slot);
+	  }
+	
+	  var _cardpicker$slot = cardpicker[slot];
+	  var show = _cardpicker$slot.show;
+	  var filteredCards = _cardpicker$slot.filteredCards;
+	
+	
+	  return {
+	    show: show,
+	    filteredCards: filteredCards,
+	    topcards: cardpicker.topcards
+	  };
+	}
+	
+	var _default = (0, _reactRedux.connect)(mapStateToProps)(CardPickerList);
+	
+	exports.default = _default;
+	;
+	
+	(function () {
+	  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+	    return;
+	  }
+	
+	  __REACT_HOT_LOADER__.register(mapStateToProps, 'mapStateToProps', '/home/janek/git/hs-arena-quick-pick/src/CardPickerList.js');
+	
+	  __REACT_HOT_LOADER__.register(CardPickerList, 'CardPickerList', '/home/janek/git/hs-arena-quick-pick/src/CardPickerList.js');
+	
+	  __REACT_HOT_LOADER__.register(_default, 'default', '/home/janek/git/hs-arena-quick-pick/src/CardPickerList.js');
+	})();
+
+	;
+
+/***/ },
+/* 214 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(2);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRedux = __webpack_require__(181);
+	
+	var _heropicker = __webpack_require__(215);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -23778,7 +23925,7 @@
 	;
 
 /***/ },
-/* 213 */
+/* 215 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -23806,7 +23953,7 @@
 	;
 
 /***/ },
-/* 214 */
+/* 216 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -23817,27 +23964,32 @@
 	
 	var _redux = __webpack_require__(188);
 	
-	var _reduxThunk = __webpack_require__(215);
+	var _reduxThunk = __webpack_require__(217);
 	
 	var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
 	
-	var _reduxLogger = __webpack_require__(216);
+	var _reduxLogger = __webpack_require__(218);
 	
 	var _reduxLogger2 = _interopRequireDefault(_reduxLogger);
 	
-	var _reduxLocalstorage = __webpack_require__(217);
+	var _reduxLocalstorage = __webpack_require__(219);
 	
 	var _reduxLocalstorage2 = _interopRequireDefault(_reduxLocalstorage);
 	
-	var _root = __webpack_require__(222);
+	var _reduxDebounced = __webpack_require__(224);
+	
+	var _reduxDebounced2 = _interopRequireDefault(_reduxDebounced);
+	
+	var _root = __webpack_require__(225);
 	
 	var _root2 = _interopRequireDefault(_root);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var loggerMiddleware = (0, _reduxLogger2.default)();
+	var debounceMiddleware = (0, _reduxDebounced2.default)();
 	
-	var persistentStore = (0, _redux.compose)((0, _reduxLocalstorage2.default)(['tierlist', 'locale', 'selectedHero']), (0, _redux.applyMiddleware)(_reduxThunk2.default, loggerMiddleware))(_redux.createStore);
+	var persistentStore = (0, _redux.compose)((0, _reduxLocalstorage2.default)(['tierlist', 'locale', 'selectedHero']), (0, _redux.applyMiddleware)(debounceMiddleware, _reduxThunk2.default, loggerMiddleware))(_redux.createStore);
 	
 	var store = persistentStore(_root2.default);
 	var _default = store;
@@ -23851,6 +24003,8 @@
 	
 	  __REACT_HOT_LOADER__.register(loggerMiddleware, 'loggerMiddleware', '/home/janek/git/hs-arena-quick-pick/src/store.js');
 	
+	  __REACT_HOT_LOADER__.register(debounceMiddleware, 'debounceMiddleware', '/home/janek/git/hs-arena-quick-pick/src/store.js');
+	
 	  __REACT_HOT_LOADER__.register(persistentStore, 'persistentStore', '/home/janek/git/hs-arena-quick-pick/src/store.js');
 	
 	  __REACT_HOT_LOADER__.register(store, 'store', '/home/janek/git/hs-arena-quick-pick/src/store.js');
@@ -23861,7 +24015,7 @@
 	;
 
 /***/ },
-/* 215 */
+/* 217 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -23884,7 +24038,7 @@
 	}
 
 /***/ },
-/* 216 */
+/* 218 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -24117,7 +24271,7 @@
 	module.exports = createLogger;
 
 /***/ },
-/* 217 */
+/* 219 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -24132,11 +24286,11 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
-	var _createSlicerJs = __webpack_require__(218);
+	var _createSlicerJs = __webpack_require__(220);
 	
 	var _createSlicerJs2 = _interopRequireDefault(_createSlicerJs);
 	
-	var _utilMergeStateJs = __webpack_require__(221);
+	var _utilMergeStateJs = __webpack_require__(223);
 	
 	/**
 	 * @description
@@ -24206,7 +24360,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 218 */
+/* 220 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -24218,11 +24372,11 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
-	var _getSubsetJs = __webpack_require__(219);
+	var _getSubsetJs = __webpack_require__(221);
 	
 	var _getSubsetJs2 = _interopRequireDefault(_getSubsetJs);
 	
-	var _utilTypeOfJs = __webpack_require__(220);
+	var _utilTypeOfJs = __webpack_require__(222);
 	
 	/**
 	 * @description
@@ -24257,7 +24411,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 219 */
+/* 221 */
 /***/ function(module, exports) {
 
 	/**
@@ -24291,7 +24445,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 220 */
+/* 222 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -24329,7 +24483,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 221 */
+/* 223 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -24349,7 +24503,59 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 222 */
+/* 224 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	exports.default = function () {
+	  var timers = {};
+	
+	  var middleware = function middleware() {
+	    return function (dispatch) {
+	      return function (action) {
+	        var _action$meta = action.meta;
+	        _action$meta = _action$meta === undefined ? {} : _action$meta;
+	        var _action$meta$debounce = _action$meta.debounce;
+	        var debounce = _action$meta$debounce === undefined ? {} : _action$meta$debounce;
+	        var type = action.type;
+	        var time = debounce.time;
+	        var _debounce$key = debounce.key;
+	        var key = _debounce$key === undefined ? type : _debounce$key;
+	        var _debounce$cancel = debounce.cancel;
+	        var cancel = _debounce$cancel === undefined ? false : _debounce$cancel;
+	
+	
+	        var shouldDebounce = time && key || cancel && key;
+	
+	        if (!shouldDebounce) {
+	          return dispatch(action);
+	        }
+	
+	        if (timers[key]) {
+	          clearTimeout(timers[key]);
+	        }
+	
+	        if (!cancel) {
+	          timers[key] = setTimeout(function () {
+	            dispatch(action);
+	          }, time);
+	        }
+	      };
+	    };
+	  };
+	
+	  middleware._timers = timers;
+	
+	  return middleware;
+	};
+
+/***/ },
+/* 225 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -24360,23 +24566,23 @@
 	
 	var _redux = __webpack_require__(188);
 	
-	var _deck = __webpack_require__(223);
+	var _deck = __webpack_require__(226);
 	
 	var _deck2 = _interopRequireDefault(_deck);
 	
-	var _tierlist = __webpack_require__(224);
+	var _tierlist = __webpack_require__(227);
 	
 	var _tierlist2 = _interopRequireDefault(_tierlist);
 	
-	var _locale = __webpack_require__(225);
+	var _locale = __webpack_require__(228);
 	
 	var _locale2 = _interopRequireDefault(_locale);
 	
-	var _cardpicker = __webpack_require__(226);
+	var _cardpicker = __webpack_require__(229);
 	
 	var _cardpicker2 = _interopRequireDefault(_cardpicker);
 	
-	var _heropicker = __webpack_require__(227);
+	var _heropicker = __webpack_require__(230);
 	
 	var _heropicker2 = _interopRequireDefault(_heropicker);
 	
@@ -24407,7 +24613,7 @@
 	;
 
 /***/ },
-/* 223 */
+/* 226 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -24442,7 +24648,7 @@
 	;
 
 /***/ },
-/* 224 */
+/* 227 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -24566,7 +24772,7 @@
 	;
 
 /***/ },
-/* 225 */
+/* 228 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -24594,7 +24800,7 @@
 	;
 
 /***/ },
-/* 226 */
+/* 229 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -24616,7 +24822,8 @@
 	var initialState = {
 	  first: buildInitialSlotState(),
 	  second: buildInitialSlotState(),
-	  third: buildInitialSlotState()
+	  third: buildInitialSlotState(),
+	  topcards: []
 	};
 	
 	function validateSlot(action) {
@@ -24625,6 +24832,20 @@
 	    throw new Error('Invalid slot: ' + slot);
 	  }
 	  return slot;
+	}
+	
+	function topcards(cards) {
+	  var topval = 0;
+	  var topcards = [];
+	  cards.forEach(function (card) {
+	    if (card._heroScore.Score == topval) {
+	      topcards.push(card);
+	    } else if (card._heroScore.Score > topval) {
+	      topcards = [card];
+	      topval = card._heroScore.Score;
+	    }
+	  });
+	  return topcards;
 	}
 	
 	function cardpicker() {
@@ -24644,13 +24865,19 @@
 	    case 'SET_SLOT_FILTER':
 	      slot = validateSlot(action);
 	      return _extends({}, state, _defineProperty({}, slot, _extends({}, state[slot], {
-	        filter: action.filter
+	        filter: action.filter,
+	        show: action.filter && action.filter.length > 2
 	      })));
 	    case 'SET_SLOT_CARDS':
 	      slot = validateSlot(action);
-	      return _extends({}, state, _defineProperty({}, slot, _extends({}, state[slot], {
+	      state = _extends({}, state, _defineProperty({}, slot, _extends({}, state[slot], {
 	        filteredCards: action.filteredCards
 	      })));
+	
+	      var allCards = [].concat(state.first.filteredCards, state.second.filteredCards, state.third.filteredCards);
+	      state.topcards = topcards(allCards);
+	
+	      return state;
 	    default:
 	      return state;
 	  }
@@ -24666,6 +24893,8 @@
 	
 	  __REACT_HOT_LOADER__.register(validateSlot, 'validateSlot', '/home/janek/git/hs-arena-quick-pick/src/reducers/cardpicker.js');
 	
+	  __REACT_HOT_LOADER__.register(topcards, 'topcards', '/home/janek/git/hs-arena-quick-pick/src/reducers/cardpicker.js');
+	
 	  __REACT_HOT_LOADER__.register(cardpicker, 'cardpicker', '/home/janek/git/hs-arena-quick-pick/src/reducers/cardpicker.js');
 	
 	  __REACT_HOT_LOADER__.register(initialState, 'initialState', '/home/janek/git/hs-arena-quick-pick/src/reducers/cardpicker.js');
@@ -24674,7 +24903,7 @@
 	;
 
 /***/ },
-/* 227 */
+/* 230 */
 /***/ function(module, exports) {
 
 	'use strict';
