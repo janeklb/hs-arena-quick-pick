@@ -46,7 +46,7 @@ export function updateCardPickerSelection(slot) {
   };
   thunk.meta = {
     debounce: {
-      time: 200,
+      time: 100,
       key: 'updateCardPickerSelection'
     }
   };
