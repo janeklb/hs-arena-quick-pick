@@ -48,7 +48,8 @@ export default function cardpicker(state = initialState, action) {
         ...state,
         [slot]: {
           ...state[slot],
-          filter: action.filter
+          filter: action.filter,
+          show: action.filter && action.filter.length > 2
         }
       };
     case 'SET_SLOT_CARDS':

@@ -12,9 +12,9 @@ const debounceMiddleware = createDebounce();
 const persistentStore = compose(
   persistState(['tierlist', 'locale', 'selectedHero']),
   applyMiddleware(
-    debounceMiddleware,
-    thunkMiddleware,
-    loggerMiddleware
+    debounceMiddleware
+    , thunkMiddleware
+    , loggerMiddleware
   )
 )(createStore);
 
