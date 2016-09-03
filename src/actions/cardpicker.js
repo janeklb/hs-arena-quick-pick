@@ -14,6 +14,12 @@ function setSlotCards(filteredCards, slot) {
   }
 }
 
+export function clearSlots() {
+  return {
+    type: 'CLEAR_SLOTS'
+  };
+}
+
 export function getFilteredCards(slot, getState) {
 
   const { filter } = getState().cardpicker[slot];

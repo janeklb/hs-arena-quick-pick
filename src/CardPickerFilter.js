@@ -1,20 +1,21 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { updateCardPickerSelection, setSlotFilter } from './actions/cardpicker';
+import { updateCardPickerSelection, setSlotFilter, clearSlots } from './actions/cardpicker';
 
 class CardPickerFilter extends Component {
 
   render() {
 
-    const { onFilterChange, slot, filter } = this.props;
+    const { onFilterChange, onKeyUp, slot, filter } = this.props;
 
     return (
       <div className="form-group">
         <input className="form-control" type="text"
             value={filter}
             placeholder={"Enter " + slot + " card ..."}
-            onChange={(e) => onFilterChange(e.target.value, slot)} />
+            onKeyUp={onKeyUp}
+            onChange={onFilterChange} />
       </div>
     );
   }
@@ -36,11 +37,19 @@ function mapStateToProps(state, props) {
   };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch, props) {
+  const { slot } = props;
   return {
-    onFilterChange: (filter, slot) => {
-      dispatch(setSlotFilter(filter, slot));
+    onFilterChange: (e) => {
+      dispatch(setSlotFilter(e.target.value, slot));
       dispatch(updateCardPickerSelection(slot));
+    },
+    onKeyUp: (e) => {
+      if (e.keyCode == 27) {
+        e.preventDefault();
+        dispatch(clearSlots());
+        return false;
+      }
     }
   };
 }

@@ -33,14 +33,10 @@ function topcards(cards) {
 
 export default function cardpicker(state = initialState, action) {
 
-  if (action.type == 'FULL_RESET') {
-    return initialState;
-  }
-
   var slot;
 
   switch(action.type) {
-    case 'FULL_RESET':
+    case 'CLEAR_SLOTS':
       return initialState;
     case 'SET_SLOT_FILTER':
       slot = validateSlot(action);

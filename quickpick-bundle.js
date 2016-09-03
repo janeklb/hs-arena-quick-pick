@@ -23496,6 +23496,7 @@
 	    value: function render() {
 	      var _props = this.props;
 	      var onFilterChange = _props.onFilterChange;
+	      var onKeyUp = _props.onKeyUp;
 	      var slot = _props.slot;
 	      var filter = _props.filter;
 	
@@ -23506,9 +23507,8 @@
 	        _react2.default.createElement('input', { className: 'form-control', type: 'text',
 	          value: filter,
 	          placeholder: "Enter " + slot + " card ...",
-	          onChange: function onChange(e) {
-	            return onFilterChange(e.target.value, slot);
-	          } })
+	          onKeyUp: onKeyUp,
+	          onChange: onFilterChange })
 	      );
 	    }
 	  }]);
@@ -23533,11 +23533,20 @@
 	  };
 	}
 	
-	function mapDispatchToProps(dispatch) {
+	function mapDispatchToProps(dispatch, props) {
+	  var slot = props.slot;
+	
 	  return {
-	    onFilterChange: function onFilterChange(filter, slot) {
-	      dispatch((0, _cardpicker.setSlotFilter)(filter, slot));
+	    onFilterChange: function onFilterChange(e) {
+	      dispatch((0, _cardpicker.setSlotFilter)(e.target.value, slot));
 	      dispatch((0, _cardpicker.updateCardPickerSelection)(slot));
+	    },
+	    onKeyUp: function onKeyUp(e) {
+	      if (e.keyCode == 27) {
+	        e.preventDefault();
+	        dispatch((0, _cardpicker.clearSlots)());
+	        return false;
+	      }
 	    }
 	  };
 	}
@@ -23573,6 +23582,7 @@
 	  value: true
 	});
 	exports.setSlotFilter = setSlotFilter;
+	exports.clearSlots = clearSlots;
 	exports.getFilteredCards = getFilteredCards;
 	exports.updateCardPickerSelection = updateCardPickerSelection;
 	function setSlotFilter(filter, slot) {
@@ -23588,6 +23598,12 @@
 	    type: 'SET_SLOT_CARDS',
 	    slot: slot,
 	    filteredCards: filteredCards
+	  };
+	}
+	
+	function clearSlots() {
+	  return {
+	    type: 'CLEAR_SLOTS'
 	  };
 	}
 	
@@ -23648,7 +23664,7 @@
 	  };
 	  thunk.meta = {
 	    debounce: {
-	      time: 200,
+	      time: 100,
 	      key: 'updateCardPickerSelection'
 	    }
 	  };
@@ -23664,6 +23680,8 @@
 	  __REACT_HOT_LOADER__.register(setSlotFilter, 'setSlotFilter', '/home/janek/git/hs-arena-quick-pick/src/actions/cardpicker.js');
 	
 	  __REACT_HOT_LOADER__.register(setSlotCards, 'setSlotCards', '/home/janek/git/hs-arena-quick-pick/src/actions/cardpicker.js');
+	
+	  __REACT_HOT_LOADER__.register(clearSlots, 'clearSlots', '/home/janek/git/hs-arena-quick-pick/src/actions/cardpicker.js');
 	
 	  __REACT_HOT_LOADER__.register(getFilteredCards, 'getFilteredCards', '/home/janek/git/hs-arena-quick-pick/src/actions/cardpicker.js');
 	
@@ -24853,14 +24871,10 @@
 	  var action = arguments[1];
 	
 	
-	  if (action.type == 'FULL_RESET') {
-	    return initialState;
-	  }
-	
 	  var slot;
 	
 	  switch (action.type) {
-	    case 'FULL_RESET':
+	    case 'CLEAR_SLOTS':
 	      return initialState;
 	    case 'SET_SLOT_FILTER':
 	      slot = validateSlot(action);
