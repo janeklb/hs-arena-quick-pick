@@ -106,30 +106,26 @@
 	
 	_store2.default.dispatch((0, _tierlist.requestTierList)());
 	
-	(0, _reactDom.render)(_react2.default.createElement(
-	  _reactHotLoader.AppContainer,
-	  null,
-	  _react2.default.createElement(
-	    _reactRedux.Provider,
-	    { store: _store2.default },
-	    _react2.default.createElement(_HSArenaQuickPick2.default, null)
-	  )
-	), document.getElementById('quickpick-root'));
+	renderApp(_HSArenaQuickPick2.default);
 	
 	// Hot Module Replacement API
 	if (false) {
 	  module.hot.accept('./HSArenaQuickPick', function () {
 	    var HSArenaQuickPick = require('./HSArenaQuickPick').default;
-	    (0, _reactDom.render)(_react2.default.createElement(
-	      _reactHotLoader.AppContainer,
-	      null,
-	      _react2.default.createElement(
-	        _reactRedux.Provider,
-	        { store: _store2.default },
-	        _react2.default.createElement(HSArenaQuickPick, null)
-	      )
-	    ), document.getElementById('quickpick-root'));
+	    renderApp(HSArenaQuickPick);
 	  });
+	}
+	
+	function renderApp(RootElement) {
+	  (0, _reactDom.render)(_react2.default.createElement(
+	    _reactHotLoader.AppContainer,
+	    null,
+	    _react2.default.createElement(
+	      _reactRedux.Provider,
+	      { store: _store2.default },
+	      _react2.default.createElement(RootElement, null)
+	    )
+	  ), document.getElementById('quickpick-root'));
 	}
 
 /***/ },
@@ -21672,15 +21668,8 @@
 	
 	  _createClass(CardPickerList, [{
 	    key: 'cardImage',
-	    value: function cardImage(card) {
-	      return 'http://wow.zamimg.com/images/hearthstone/cards/enus/original/' + card.CardId + '.png';
-	    }
-	  }, {
-	    key: 'cardStyle',
-	    value: function cardStyle(card) {
-	      return {
-	        backgroundImage: 'url(' + this.cardImage(card) + ')'
-	      };
+	    value: function cardImage(card, large) {
+	      return 'http://wow.zamimg.com/images/hearthstone/cards/enus/' + (large ? 'original' : 'small') + '/' + card.CardId + '.png';
 	    }
 	  }, {
 	    key: 'render',
@@ -21727,7 +21716,7 @@
 	              ' ',
 	              card._heroScore.StopAfterFirst ? _react2.default.createElement(
 	                'span',
-	                { className: 'text-warning' },
+	                { className: 'text-danger' },
 	                'X'
 	              ) : '',
 	              ' ',

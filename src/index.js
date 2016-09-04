@@ -11,26 +11,23 @@ import store from './store';
 
 store.dispatch(requestTierList());
 
-render(
-  <AppContainer>
-    <Provider store={store}>
-      <HSArenaQuickPick />
-    </Provider>
-  </AppContainer>,
-  document.getElementById('quickpick-root')
-);
+renderApp(HSArenaQuickPick);
 
 // Hot Module Replacement API
 if (module.hot) {
   module.hot.accept('./HSArenaQuickPick', () => {
     const HSArenaQuickPick = require('./HSArenaQuickPick').default;
-    render(
-      <AppContainer>
-        <Provider store={store}>
-          <HSArenaQuickPick />
-        </Provider>
-      </AppContainer>,
-      document.getElementById('quickpick-root')
-    );
+    renderApp(HSArenaQuickPick);
   });
+}
+
+function renderApp(RootElement) {
+  render(
+    <AppContainer>
+      <Provider store={store}>
+        <RootElement />
+      </Provider>
+    </AppContainer>,
+    document.getElementById('quickpick-root')
+  );
 }

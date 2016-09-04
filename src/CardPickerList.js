@@ -3,14 +3,8 @@ import { connect } from 'react-redux';
 
 class CardPickerList extends Component {
 
-  cardImage(card) {
-    return 'http://wow.zamimg.com/images/hearthstone/cards/enus/original/' + card.CardId + '.png';
-  }
-
-  cardStyle(card) {
-    return {
-      backgroundImage: 'url(' + this.cardImage(card) + ')'
-    };
+  cardImage(card, large) {
+    return `http://wow.zamimg.com/images/hearthstone/cards/enus/${large ? 'original' : 'small'}/${card.CardId}.png`;
   }
 
   render() {
@@ -32,7 +26,7 @@ class CardPickerList extends Component {
                 'label label-default pull-right' + (isTopCard(card) ? ' label-success' : '') }>
               <strong>{card._heroScore.Score}</strong>
               { ' ' }
-              { card._heroScore.StopAfterFirst ? <span className="text-warning">X</span> : '' }
+              { card._heroScore.StopAfterFirst ? <span className="text-danger">X</span> : '' }
               { ' ' }
               { card._heroScore.StopAfterSecond ? <span className="text-danger">X</span> : ''}
             </span>
