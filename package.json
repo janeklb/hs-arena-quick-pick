@@ -3,9 +3,8 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "start": "webpack --progress --colors --watch",
-    "build": "webpack --progress --colors",
-    "hot": "node webpack-dev-server.js"
+    "start": "node webpack-dev-server.js",
+    "build": "NODE_ENV=production webpack --progress --colors"
   },
   "author": "janek.lb@gmail.com",
   "license": "MIT",
