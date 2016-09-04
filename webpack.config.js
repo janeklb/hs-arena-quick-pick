@@ -1,4 +1,5 @@
 var path = require('path');
+var webpack = require('webpack');
 
 module.exports = {
   entry: [
@@ -10,6 +11,13 @@ module.exports = {
     publicPath: '/',
     path: __dirname + '/'
   },
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env': {
+        'NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+      }
+    })
+  ],
   devtool: 'source-map',
   module: {
     loaders: [

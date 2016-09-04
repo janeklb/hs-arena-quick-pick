@@ -1,16 +1,20 @@
 function findHeroScore(card, hero) {
 
+  // check for scores matching the hero
   for (var score of card.Scores) {
     if (score.Hero == hero) {
       return score;
     }
   }
 
+  // check fore scores matching no hero
   for (var score of card.Scores) {
     if (score.Hero == null) {
       return score;
     }
   }
+
+  throw new Error('No Hero score found');
 }
 
 export default function tierlist(state = null, action) {
