@@ -1,10 +1,4 @@
-# react-webpack-template
+# HS Arena Quick Pick
 
-This is a simple template for building React apps. Use this to get started, and if you find yourself needing additional features, see my [webpack-howto](https://github.com/petehunt/webpack-howto).
+Simple app to help you pick the best cards in Hearthstone's Arena mode. This was mainly built as an educational exercise for learning React + Redux. Based on [react-webpack-template](https://github.com/petehunt/react-webpack-template my-new-project)
 
-## How to use this
-
-  * Clone the repo: `git clone https://github.com/petehunt/react-webpack-template my-new-project`
-  * Install the dependencies: `cd my-new-project && npm install`
-  * Start webpack: `npm start`
-  * Add your code to `index.js` and open `index.html`
